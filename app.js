@@ -9,11 +9,18 @@ const postsRouter = require('./routes/posts');
 const mongoose = require('mongoose');
 var app = express();
 const cors = require('cors');
+const dotenv = require('dotenv');
 
+dotenv.config({path:"./config.env"});
 
-//連線DB
-mongoose.connect("mongodb://localhost:27017/Post2").then(
-    res => console.log("連線資料庫成功"));
+const DB = process.env.DATABASE.replace('<password>', process.env.DATABASE_PASSWORD);
+
+//連線local DB
+// mongoose.connect("mongodb://localhost:27017/Post2").then(
+//     res => console.log("連線資料庫成功"));
+
+//連線遠端DB
+mongoose.connect(DB).then( res => console.log("連線資料庫成功!!!"));
 
 app.use(logger('dev'));
 app.use(express.json());
